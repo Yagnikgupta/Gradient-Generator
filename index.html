@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gradient Generator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      transition: background 0.8s ease-in-out;
+    }
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 1rem;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    button {
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+    #start {
+      background: #4CAF50;
+      color: white;
+    }
+    #start:hover {
+      background: #45a049;
+      transform: scale(1.05);
+    }
+    #stop {
+      background: #f44336;
+      color: white;
+    }
+    #stop:hover {
+      background: #d73833;
+      transform: scale(1.05);
+    }
+    #code {
+      margin-top: 1rem;
+      font-family: monospace;
+      font-size: 0.9rem;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      display: inline-block;
+      cursor: pointer;
+      transition: background 0.3s;
+      user-select: all;
+    }
+    #code:hover {
+      background: rgba(0,0,0,0.9);
+    }
+    #msg {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: limegreen;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+    }
+    #msg.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🎨 Random Gradient Generator</h2>
+    <button id="start">Generate Gradient</button>
+    <button id="stop">Reset</button>
+    <div id="code">linear-gradient(...)</div>
+    <div id="msg">Copied!</div>
+  </div>
+
+  <script>
+    // Generate random hex color
+    function randomColor() {
+      const hex = "0123456789ABCDEF";
+      let color = "#";
+      for (let i = 0; i < 6; i++) {
+        color += hex[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    // Apply gradient
+    function generateGradient() {
+      const color1 = randomColor();
+      const color2 = randomColor();
+      const angle = Math.floor(Math.random() * 360);
+
+      const gradient = `linear-gradient(${angle}deg, ${color1}, ${color2})`;
+      document.body.style.background = gradient;
+      document.querySelector("#code").textContent = gradient;
+    }
+
+    // Reset to default
+    function resetGradient() {
+      document.body.style.background = "#ffffff";
+      document.querySelector("#code").textContent = "linear-gradient(...)";
+    }
+
+    // Copy CSS when clicking the code
+    function copyCSS() {
+      const code = document.querySelector("#code").textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const msg = document.querySelector("#msg");
+        msg.classList.add("show");
+        setTimeout(() => msg.classList.remove("show"), 1200);
+      });
+    }
+
+    // Buttons
+    document.querySelector("#start").addEventListener("click", generateGradient);
+    document.querySelector("#stop").addEventListener("click", resetGradient);
+    document.querySelector("#code").addEventListener("click", copyCSS);
+  </script>
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gradient Generator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      transition: background 0.8s ease-in-out;
+    }
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 1rem;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    button {
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+    #start {
+      background: #4CAF50;
+      color: white;
+    }
+    #start:hover {
+      background: #45a049;
+      transform: scale(1.05);
+    }
+    #stop {
+      background: #f44336;
+      color: white;
+    }
+    #stop:hover {
+      background: #d73833;
+      transform: scale(1.05);
+    }
+    #code {
+      margin-top: 1rem;
+      font-family: monospace;
+      font-size: 0.9rem;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      display: inline-block;
+      user-select: all;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🎨 Random Gradient Generator</h2>
+    <button id="start">Generate Gradient</button>
+    <button id="stop">Reset</button>
+    <div id="code">linear-gradient(...)</div>
+  </div>
+
+  <script>
+    // Generate random hex color
+    function randomColor() {
+      const hex = "0123456789ABCDEF";
+      let color = "#";
+      for (let i = 0; i < 6; i++) {
+        color += hex[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    // Apply gradient
+    function generateGradient() {
+      const color1 = randomColor();
+      const color2 = randomColor();
+      const angle = Math.floor(Math.random() * 360);
+
+      const gradient = `linear-gradient(${angle}deg, ${color1}, ${color2})`;
+      document.body.style.background = gradient;
+      document.querySelector("#code").textContent = gradient;
+    }
+
+    // Reset to default
+    function resetGradient() {
+      document.body.style.background = "#ffffff";
+      document.querySelector("#code").textContent = "linear-gradient(...)" ;
+    }
+
+    // Buttons
+    document.querySelector("#start").addEventListener("click", generateGradient);
+    document.querySelector("#stop").addEventListener("click", resetGradient);
+  </script>
+</body>
+</html> -->
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gradient Picker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #222;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .preview {
+      width: 300px;
+      height: 150px;
+      border-radius: 12px;
+      margin: 20px 0;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    .controls {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    input[type="color"], select {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>🎨 Gradient Picker</h2>
+
+  <div class="preview" id="preview"></div>
+
+  <div class="controls">
+    <label>Color 1: <input type="color" id="color1" value="#ff0000"></label>
+    <label>Color 2: <input type="color" id="color2" value="#0000ff"></label>
+    <label>
+      Direction:
+      <select id="direction">
+        <option value="to right">➡️ Right</option>
+        <option value="to left">⬅️ Left</option>
+        <option value="to bottom">⬇️ Bottom</option>
+        <option value="to top">⬆️ Top</option>
+        <option value="135deg">Diagonal</option>
+      </select>
+    </label>
+  </div>
+
+  <p id="cssCode"></p>
+
+  <script>
+    const color1 = document.getElementById("color1");
+    const color2 = document.getElementById("color2");
+    const direction = document.getElementById("direction");
+    const preview = document.getElementById("preview");
+    const cssCode = document.getElementById("cssCode");
+
+    function updateGradient() {
+      const gradient = `linear-gradient(${direction.value}, ${color1.value}, ${color2.value})`;
+      preview.style.background = gradient;
+      cssCode.textContent = `background: ${gradient};`;
+    }
+
+    color1.addEventListener("input", updateGradient);
+    color2.addEventListener("input", updateGradient);
+    direction.addEventListener("change", updateGradient);
+
+    updateGradient(); // initial call
+  </script>
+</body>
+</html> -->
